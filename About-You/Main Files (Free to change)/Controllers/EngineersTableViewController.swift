@@ -29,6 +29,7 @@ class EngineersTableViewController: UITableViewController, UIPopoverPresentation
     @objc func orderByTapped() {
         guard let from = navigationItem.rightBarButtonItem else { return }
         let controller = OrderByTableViewController(style: .plain)
+        controller.delegate = self
         let size = CGSize(width: 200,
                           height: 150)
 
@@ -65,14 +66,48 @@ class EngineersTableViewController: UITableViewController, UIPopoverPresentation
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: GlucodianTableViewCell.self)) as? GlucodianTableViewCell
-        cell?.setUp(with: engineers[indexPath.row].name, role: engineers[indexPath.row].role)
+        let engineer = engineers[indexPath.row]
+        cell?.setUp(with: engineer.image,
+                    name: engineer.name,
+                    role: engineer.role)
         cell?.accessoryType = .disclosureIndicator
         return cell ?? UITableViewCell()
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedEngineer = engineers[indexPath.row]
-        let controller = QuestionsViewController.loadController(with: selectedEngineer, and: selectedEngineer.questions)
+        let controller = QuestionsViewController.loadController(with: selectedEngineer,
+                                                                and: selectedEngineer.questions,
+                                                                delegate: self)
         navigationController?.pushViewController(controller, animated: true)
+    }
+    
+    // MARK: - Private functions
+    private func loadImage(from imageName: String) -> UIImage? {
+        guard imageName.isEmpty == false else { return nil }
+        
+        return UIImage(named: imageName)
+    }
+}
+
+extension EngineersTableViewController: QuestionsViewControllerDelegate {
+    func didChangeProfilePicture(for engineer: Engineer, image: UIImage) {
+        let engineer = engineers.first(where: { $0 == engineer })
+        engineer?.pickedImage = image
+        tableView.reloadData()
+    }
+}
+
+extension EngineersTableViewController: OrderByTableViewControllerDelegate {
+    func didSelect(orderBy: OrderBy) {
+        switch orderBy {
+        case .Years:
+            engineers.sort(by: { $0.quickStats.years > $1.quickStats.years })
+        case .Coffees:
+            engineers.sort(by: { $0.quickStats.coffees > $1.quickStats.coffees })
+        case .Bugs:
+            engineers.sort(by: { $0.quickStats.bugs > $1.quickStats.bugs })
+        }
+        tableView.reloadData()
     }
 }

@@ -1,6 +1,19 @@
 import UIKit
 
+enum OrderBy: String, CaseIterable {
+    case Years
+    case Coffees
+    case Bugs
+}
+
+protocol OrderByTableViewControllerDelegate: AnyObject {
+    func didSelect(orderBy: OrderBy)
+}
+
 class OrderByTableViewController: UITableViewController {
+    private var currentSelection: OrderBy?
+    private var orderOptions: [OrderBy] = OrderBy.allCases
+    weak var delegate: OrderByTableViewControllerDelegate?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -12,22 +25,26 @@ class OrderByTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        return orderOptions.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: UITableViewCell.self))
-        if indexPath.row == 0 {
-            cell?.textLabel?.text = "Years"
-        } else if indexPath.row == 1 {
-            cell?.textLabel?.text = "Coffees"
-        } else {
-            cell?.textLabel?.text = "Bugs"
-        }
+        cell?.textLabel?.text = orderOptions[indexPath.row].rawValue
         return cell ?? UITableViewCell()
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let newSelection = orderOptions[indexPath.row]
+        if let currentSelection,
+            let currentSelectionIndex = orderOptions.firstIndex(of: currentSelection),
+            let cell = tableView.cellForRow(at: IndexPath(row: currentSelectionIndex, section: 0)) {
+            cell.accessoryType = .none
+        }
+        let selectedCell = tableView.cellForRow(at: indexPath)
+        selectedCell?.accessoryType = .checkmark
+        currentSelection = newSelection
+        delegate?.didSelect(orderBy: newSelection)
         tableView.deselectRow(at: indexPath, animated: true)
     }
 

@@ -8,8 +8,15 @@ class GlucodianTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
     }
+    
+    override func prepareForReuse() {
+        profileImage.image = UIImage.init(systemName: "person.fill")
+    }
 
-    func setUp(with name: String, role: String) {
+    func setUp(with image: UIImage?, name: String, role: String) {
+        if let image {
+            profileImage.image = image
+        }
         nameLabel.text = name
         roleLabel.text = role
     }

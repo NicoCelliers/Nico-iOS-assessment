@@ -1,11 +1,40 @@
 import UIKit
 
-struct Engineer {
+class Engineer: Equatable {
+    var id = UUID()
     var name: String
     var role: String
     var defualtImageName: String
+    var pickedImage: UIImage?
     var quickStats: QuickStats
     var questions: [Question]
+    
+    init(name: String, role: String, defualtImageName: String, pickedImage: UIImage? = nil, quickStats: QuickStats, questions: [Question]) {
+        self.name = name
+        self.role = role
+        self.defualtImageName = defualtImageName
+        self.pickedImage = pickedImage
+        self.quickStats = quickStats
+        self.questions = questions
+    }
+    
+    static func == (lhs: Engineer, rhs: Engineer) -> Bool {
+        lhs.id == rhs.id
+    }
+}
+
+extension Engineer {
+    var image: UIImage {
+        if let pickedImage {
+            return pickedImage
+        }
+        
+        if defualtImageName.isEmpty == false, let image = UIImage(named: defualtImageName) {
+            return image
+        }
+        
+        return UIImage.init(systemName: "person.fill")!
+    }
 }
 
 struct QuickStats {

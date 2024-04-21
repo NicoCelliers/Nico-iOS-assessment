@@ -2,6 +2,7 @@ import UIKit
 
 protocol ProfileViewDelegate {
     func present(_ viewController: UIViewController)
+    func didChangeProfilePicture(_ image: UIImage)
 }
 
 class ProfileView: UIView {
@@ -14,8 +15,8 @@ class ProfileView: UIView {
         applyStyling()
     }
     
-    func setUp(imageName: String, name: String, role: String, delegate: ProfileViewDelegate?) {
-        if let image = loadImage(from: imageName) {
+    func setUp(image: UIImage?, name: String, role: String, delegate: ProfileViewDelegate?) {
+        if let image {
             imageView.image = image
         }
         nameLabel.text = name
@@ -30,12 +31,6 @@ class ProfileView: UIView {
 
         layer.cornerRadius = 10
         layer.cornerCurve = .continuous
-    }
-    
-    private func loadImage(from imageName: String) -> UIImage? {
-        guard imageName.isEmpty == false else { return nil }
-        
-        return UIImage(named: imageName)
     }
     
     static func loadView() -> Self? {
@@ -59,6 +54,7 @@ extension ProfileView: UIImagePickerControllerDelegate, UINavigationControllerDe
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let image = info[UIImagePickerController.InfoKey(rawValue: "UIImagePickerControllerOriginalImage")] as? UIImage {
             imageView.image = image
+            delegate?.didChangeProfilePicture(image)
         }
         
         dismiss(picker)

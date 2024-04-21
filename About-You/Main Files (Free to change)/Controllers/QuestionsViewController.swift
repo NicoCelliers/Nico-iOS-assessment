@@ -1,14 +1,22 @@
 import UIKit
 
+protocol QuestionsViewControllerDelegate: AnyObject {
+    func didChangeProfilePicture(for engineer: Engineer, image: UIImage)
+}
+
 class QuestionsViewController: UIViewController, UIScrollViewDelegate {
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var containerStack: UIStackView!
+    var engineer: Engineer?
     var questions: [Question] = []
+    private weak var delegate: QuestionsViewControllerDelegate?
 
-    static func loadController(with engineer: Engineer, and questions: [Question]) -> QuestionsViewController {
+    static func loadController(with engineer: Engineer, 
+                               and questions: [Question],
+                               delegate: QuestionsViewControllerDelegate?) -> QuestionsViewController {
         let viewController = QuestionsViewController.init(nibName: String.init(describing: self), bundle: Bundle(for: self))
         viewController.loadViewIfNeeded()
-        viewController.setUp(with: engineer, and: questions)
+        viewController.setUp(with: engineer, and: questions, delegate: delegate)
         return viewController
     }
 
@@ -25,7 +33,7 @@ class QuestionsViewController: UIViewController, UIScrollViewDelegate {
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
     }
 
-    func setUp(with engineer: Engineer, and questions: [Question]) {
+    func setUp(with engineer: Engineer, and questions: [Question], delegate: QuestionsViewControllerDelegate?) {
         loadViewIfNeeded()
         
         addProfile(with: engineer)
@@ -34,12 +42,14 @@ class QuestionsViewController: UIViewController, UIScrollViewDelegate {
             addQuestion(with: question)
         }
 
+        self.engineer = engineer
         self.questions = questions
+        self.delegate = delegate
     }
     
     private func addProfile(with engineer: Engineer) {
         guard let profileView = ProfileView.loadView() else { return }
-        profileView.setUp(imageName: engineer.defualtImageName,
+        profileView.setUp(image: engineer.image,
                           name: engineer.name,
                           role: engineer.role,
                           delegate: self)
@@ -56,6 +66,12 @@ class QuestionsViewController: UIViewController, UIScrollViewDelegate {
 }
 
 extension QuestionsViewController: ProfileViewDelegate {
+    func didChangeProfilePicture(_ image: UIImage) {
+        guard let engineer else { return }
+        engineer.pickedImage = image
+        delegate?.didChangeProfilePicture(for: engineer, image: image)
+    }
+    
     func present(_ viewController: UIViewController) {
         present(viewController, animated: true)
     }
