@@ -29,6 +29,8 @@ class QuestionCardView: UIView {
     private func applyStyling() {
         titleLabel.textColor = .white
         titleLabel.font = UIFont.systemFont(ofSize: 22, weight: UIFont.Weight.semibold)
+        titleLabel.numberOfLines = 0
+        titleLabel.lineBreakMode = .byWordWrapping
 
         layer.cornerRadius = 10
         layer.cornerCurve = .continuous
