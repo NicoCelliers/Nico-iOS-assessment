@@ -37,6 +37,8 @@ class SelectableAwnswerView: UIView {
     private func applyStyling() {
         applyDeselectionStyling()
         titleLabel.font = UIFont.systemFont(ofSize: 17, weight: UIFont.Weight.regular)
+        titleLabel.numberOfLines = 0
+        titleLabel.lineBreakMode = .byWordWrapping
 
         highlightView.layer.cornerCurve = .continuous
         highlightView.layer.cornerRadius = 10
