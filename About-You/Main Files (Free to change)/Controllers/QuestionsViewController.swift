@@ -5,10 +5,10 @@ class QuestionsViewController: UIViewController, UIScrollViewDelegate {
     @IBOutlet weak var containerStack: UIStackView!
     var questions: [Question] = []
 
-    static func loadController(with questions: [Question]) -> QuestionsViewController {
+    static func loadController(with engineer: Engineer, and questions: [Question]) -> QuestionsViewController {
         let viewController = QuestionsViewController.init(nibName: String.init(describing: self), bundle: Bundle(for: self))
         viewController.loadViewIfNeeded()
-        viewController.setUp(with: questions)
+        viewController.setUp(with: engineer, and: questions)
         return viewController
     }
 
@@ -25,14 +25,25 @@ class QuestionsViewController: UIViewController, UIScrollViewDelegate {
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
     }
 
-    func setUp(with questions: [Question]) {
+    func setUp(with engineer: Engineer, and questions: [Question]) {
         loadViewIfNeeded()
+        
+        addProfile(with: engineer)
 
         for question in questions {
             addQuestion(with: question)
         }
 
         self.questions = questions
+    }
+    
+    private func addProfile(with engineer: Engineer) {
+        guard let profileView = ProfileView.loadView() else { return }
+        profileView.setUp(imageName: engineer.defualtImageName,
+                          name: engineer.name,
+                          role: engineer.role,
+                          delegate: self)
+        containerStack.addArrangedSubview(profileView)
     }
 
     private func addQuestion(with data: Question) {
@@ -41,5 +52,11 @@ class QuestionsViewController: UIViewController, UIScrollViewDelegate {
                        options: data.answerOptions,
                        selectedIndex: data.answer?.index)
         containerStack.addArrangedSubview(cardView)
+    }
+}
+
+extension QuestionsViewController: ProfileViewDelegate {
+    func present(_ viewController: UIViewController) {
+        present(viewController, animated: true)
     }
 }

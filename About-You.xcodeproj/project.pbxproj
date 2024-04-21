@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		03F300762BD5278A00AAC9BD /* ProfileView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 03F300752BD5278900AAC9BD /* ProfileView.xib */; };
+		03F300782BD5289C00AAC9BD /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03F300772BD5289C00AAC9BD /* ProfileView.swift */; };
 		5D69CD8A26E0A043001DE1A7 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 5D69CD8926E0A043001DE1A7 /* README.md */; };
 		5D736ECE2732FEF200BE2B04 /* UserDefaults+Extension .swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D736ECD2732FEF200BE2B04 /* UserDefaults+Extension .swift */; };
 		5D8DA22B26E0104C00418960 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D8DA22A26E0104C00418960 /* RootViewController.swift */; };
@@ -61,6 +63,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		03F300752BD5278900AAC9BD /* ProfileView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfileView.xib; sourceTree = "<group>"; };
+		03F300772BD5289C00AAC9BD /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		5D69CD8926E0A043001DE1A7 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
 		5D736ECD2732FEF200BE2B04 /* UserDefaults+Extension .swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Extension .swift"; sourceTree = "<group>"; };
 		5D8DA22A26E0104C00418960 /* RootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
@@ -327,6 +331,7 @@
 				5D93CE282706F0AD00D5059C /* Cells */,
 				5DD01B5127046C5B0032C29A /* QuestionCardView.swift */,
 				5DD01B5327046C790032C29A /* SelectableAwnswerView.swift */,
+				03F300772BD5289C00AAC9BD /* ProfileView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -338,6 +343,7 @@
 				5DD01B4D27046B820032C29A /* QuestionsViewController.xib */,
 				5DD01B5727046CDF0032C29A /* QuestionCardView.xib */,
 				5DD01B5527046CD00032C29A /* SelectableAwnswerView.xib */,
+				03F300752BD5278900AAC9BD /* ProfileView.xib */,
 			);
 			path = Xibs;
 			sourceTree = "<group>";
@@ -460,6 +466,7 @@
 				5D93CE33270B08C900D5059C /* Simple.png in Resources */,
 				5D93CE47270C214000D5059C /* Finished Implementation.mov in Resources */,
 				5D93CE3C270C11F000D5059C /* Bug 1 & 2.png in Resources */,
+				03F300762BD5278A00AAC9BD /* ProfileView.xib in Resources */,
 				5D90F2E626DB774700EFA4A8 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -494,6 +501,7 @@
 				5D8DA22F26E010C600418960 /* UIViewController+Extensions.swift in Sources */,
 				5D736ECE2732FEF200BE2B04 /* UserDefaults+Extension .swift in Sources */,
 				5DD01B5227046C5B0032C29A /* QuestionCardView.swift in Sources */,
+				03F300782BD5289C00AAC9BD /* ProfileView.swift in Sources */,
 				5D93CE2B2706F0DB00D5059C /* GlucodianTableViewCell.swift in Sources */,
 				5D90F2DC26DB774400EFA4A8 /* SceneDelegate.swift in Sources */,
 				5D8DA23B26E0182B00418960 /* Question.swift in Sources */,

@@ -19,7 +19,7 @@ extension Engineer {
         return [
             Engineer(name: "Reenen",
                      role: "Dev manager",
-                     defualtImageName: "",
+                     defualtImageName: "Reenen",
                      quickStats: QuickStats(years: 6, coffees: 5400, bugs: 1800),
                      questions: [
                         MainQuestions.questionOne(answer: Answer(text: "6am", index: 0)),
