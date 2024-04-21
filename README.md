@@ -63,4 +63,4 @@ By partaking in this assignment I agree that:
 # Remarks
 
 - I followed the existing MVC architecture in the given project, but projects should ideally be in the MVVM architecture. This is to avoid Massive View Controllers and also helps to separate concerns (view <-> business logic). The steps to this would be to move the business logic from the view controllers and place into a class called view model for each controller.
-- 
+  - I implemented MVVM for EngineersTableViewController, this same process can be repeated for other controllers as well.

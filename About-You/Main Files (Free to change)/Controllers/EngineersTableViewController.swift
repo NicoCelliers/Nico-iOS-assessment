@@ -1,8 +1,8 @@
 import UIKit
 
 class EngineersTableViewController: UITableViewController, UIPopoverPresentationControllerDelegate {
-    var engineers: [Engineer] = Engineer.testingData()
-
+    var viewModel: EngineersViewModel = EngineersViewModel()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Engineers at Glucode"
@@ -61,12 +61,12 @@ class EngineersTableViewController: UITableViewController, UIPopoverPresentation
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return engineers.count
+        return viewModel.engineers.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: GlucodianTableViewCell.self)) as? GlucodianTableViewCell
-        let engineer = engineers[indexPath.row]
+        let engineer = viewModel.engineers[indexPath.row]
         cell?.setUp(with: engineer.image,
                     name: engineer.name,
                     role: engineer.role)
@@ -75,39 +75,24 @@ class EngineersTableViewController: UITableViewController, UIPopoverPresentation
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let selectedEngineer = engineers[indexPath.row]
+        let selectedEngineer = viewModel.engineers[indexPath.row]
         let controller = QuestionsViewController.loadController(with: selectedEngineer,
                                                                 and: selectedEngineer.questions,
                                                                 delegate: self)
         navigationController?.pushViewController(controller, animated: true)
     }
-    
-    // MARK: - Private functions
-    private func loadImage(from imageName: String) -> UIImage? {
-        guard imageName.isEmpty == false else { return nil }
-        
-        return UIImage(named: imageName)
-    }
 }
 
 extension EngineersTableViewController: QuestionsViewControllerDelegate {
     func didChangeProfilePicture(for engineer: Engineer, image: UIImage) {
-        let engineer = engineers.first(where: { $0 == engineer })
-        engineer?.pickedImage = image
+        viewModel.changeProfilePicture(for: engineer, with: image)
         tableView.reloadData()
     }
 }
 
 extension EngineersTableViewController: OrderByTableViewControllerDelegate {
     func didSelect(orderBy: OrderBy) {
-        switch orderBy {
-        case .Years:
-            engineers.sort(by: { $0.quickStats?.years ?? 0 > $1.quickStats?.years ?? 0 })
-        case .Coffees:
-            engineers.sort(by: { $0.quickStats?.coffees ?? 0 > $1.quickStats?.coffees ?? 0 })
-        case .Bugs:
-            engineers.sort(by: { $0.quickStats?.bugs ?? 0 > $1.quickStats?.bugs ?? 0 })
-        }
+        viewModel.orderEngineersBy(orderBy)
         tableView.reloadData()
     }
 }
