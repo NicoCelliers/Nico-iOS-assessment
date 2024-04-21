@@ -6,10 +6,10 @@ class Engineer: Equatable {
     var role: String
     var defualtImageName: String
     var pickedImage: UIImage?
-    var quickStats: QuickStats
+    var quickStats: QuickStats?
     var questions: [Question]
     
-    init(name: String, role: String, defualtImageName: String, pickedImage: UIImage? = nil, quickStats: QuickStats, questions: [Question]) {
+    init(name: String, role: String, defualtImageName: String, pickedImage: UIImage? = nil, quickStats: QuickStats?, questions: [Question]) {
         self.name = name
         self.role = role
         self.defualtImageName = defualtImageName
@@ -73,7 +73,7 @@ extension Engineer {
             Engineer(name: "Eben",
                      role: "Head of Testing",
                      defualtImageName: "",
-                     quickStats: QuickStats(years: 14, coffees: 1000, bugs: 100),
+                     quickStats: nil,
                      questions: [
                         MainQuestions.questionOne(answer: Answer(text: "midnight", index: 3)),
                         MainQuestions.questionTwo(answer: Answer(text: "10 to 15 years old", index: 0)),

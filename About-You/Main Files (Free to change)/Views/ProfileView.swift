@@ -9,28 +9,85 @@ class ProfileView: UIView {
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var roleLabel: UILabel!
     @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var stackView: UIStackView!
+    @IBOutlet weak var imageViewHeightConstraint: NSLayoutConstraint!
     private var delegate: ProfileViewDelegate?
 
     override func awakeFromNib() {
         applyStyling()
     }
     
-    func setUp(image: UIImage?, name: String, role: String, delegate: ProfileViewDelegate?) {
+    func setUp(image: UIImage?, name: String, role: String, stats: QuickStats?, delegate: ProfileViewDelegate?) {
         if let image {
             imageView.image = image
         }
+        
+        stackView.isHidden = true
+        if let stats {
+            addQuickStatsView(with: stats)
+            stackView.isHidden = false
+        }
+        updateImageViewConstraints()
+        
         nameLabel.text = name
         roleLabel.text = role
         self.delegate = delegate
+    }
+    
+    func addQuickStatsView(with stats: QuickStats) {
+        stackView.distribution = .fillEqually
+        stackView.spacing = 15
+        stackView.layoutMargins = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
+        stackView.isLayoutMarginsRelativeArrangement = true
+        
+        let yearsView = createQuickStatView(with: "Years", value: "\(stats.years)")
+        let coffeesView = createQuickStatView(with: "Coffees", value: "\(stats.coffees)")
+        let bugsView = createQuickStatView(with: "Bugs", value: "\(stats.bugs)")
+        
+        stackView.addArrangedSubview(yearsView)
+        stackView.addArrangedSubview(coffeesView)
+        stackView.addArrangedSubview(bugsView)
+    }
+    
+    func createQuickStatView(with title: String, value: String) -> UIStackView {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.alignment = .center
+        
+        let statTitleLabel = UILabel()
+        statTitleLabel.font = UIFont.systemFont(ofSize: 13, weight: UIFont.Weight.regular)
+        statTitleLabel.text = title
+        
+        let statValueLabel = UILabel()
+        statValueLabel.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.semibold)
+        statValueLabel.text = value
+        
+        stackView.addArrangedSubview(statTitleLabel)
+        stackView.addArrangedSubview(statValueLabel)
+        
+        return stackView
     }
     
     private func applyStyling() {
         nameLabel.font = UIFont.systemFont(ofSize: 22, weight: UIFont.Weight.semibold)
         
         roleLabel.font = UIFont.systemFont(ofSize: 17, weight: UIFont.Weight.regular)
+        
+        stackView.backgroundColor = .systemGray5
+        stackView.layer.cornerRadius = 10
+        stackView.layer.cornerCurve = .continuous
 
         layer.cornerRadius = 10
         layer.cornerCurve = .continuous
+    }
+    
+    private func updateImageViewConstraints() {
+        if stackView.isHidden {
+            imageViewHeightConstraint?.constant = 64
+        } else {
+            imageViewHeightConstraint?.constant = 115
+        }
+        layoutIfNeeded()
     }
     
     static func loadView() -> Self? {

@@ -102,11 +102,11 @@ extension EngineersTableViewController: OrderByTableViewControllerDelegate {
     func didSelect(orderBy: OrderBy) {
         switch orderBy {
         case .Years:
-            engineers.sort(by: { $0.quickStats.years > $1.quickStats.years })
+            engineers.sort(by: { $0.quickStats?.years ?? 0 > $1.quickStats?.years ?? 0 })
         case .Coffees:
-            engineers.sort(by: { $0.quickStats.coffees > $1.quickStats.coffees })
+            engineers.sort(by: { $0.quickStats?.coffees ?? 0 > $1.quickStats?.coffees ?? 0 })
         case .Bugs:
-            engineers.sort(by: { $0.quickStats.bugs > $1.quickStats.bugs })
+            engineers.sort(by: { $0.quickStats?.bugs ?? 0 > $1.quickStats?.bugs ?? 0 })
         }
         tableView.reloadData()
     }

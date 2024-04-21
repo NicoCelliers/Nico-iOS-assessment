@@ -52,6 +52,7 @@ class QuestionsViewController: UIViewController, UIScrollViewDelegate {
         profileView.setUp(image: engineer.image,
                           name: engineer.name,
                           role: engineer.role,
+                          stats: engineer.quickStats,
                           delegate: self)
         containerStack.addArrangedSubview(profileView)
     }
