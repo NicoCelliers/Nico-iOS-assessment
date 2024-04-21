@@ -1,11 +1,7 @@
 import XCTest
 @testable import About_You
 
-class About_YouTests: XCTestCase {
-
-    // Steve did not really know about tests...
-    // Maybe you can show him by testing the results calculations?
-    
+class OrderByTableViewControllerTests: XCTestCase {
     // Could also be called 'sut' (system under test) depending on coding standards
     var controller: OrderByTableViewController?
     var orderBy: OrderBy?
@@ -139,7 +135,7 @@ class About_YouTests: XCTestCase {
     }
 }
 
-extension About_YouTests: OrderByTableViewControllerDelegate {
+extension OrderByTableViewControllerTests: OrderByTableViewControllerDelegate {
     func didSelect(orderBy: OrderBy) {
         self.orderBy = orderBy
         expectation?.fulfill()
