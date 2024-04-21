@@ -47,6 +47,7 @@ class QuestionCardView: UIView {
 
         if setSelected {
             optionView.applySelectionStyling()
+            currentSelection = optionView
         }
     }
 
